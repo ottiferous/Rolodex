@@ -28,7 +28,6 @@ class Rolodex():
    
    def extract_info(self, lines_of_info):
       """ use regex to pull data from each line in large string object """
-      
       linenum = 0
       for line in lines_of_info:
          
@@ -47,7 +46,6 @@ class Rolodex():
 
    def add_info(self, zipcode, names, phone, color):
       """ takes regex objects and returns a dictionary object """
-
       self.entry.append({
          "phonenumber" : phone.group(0) if phone.group(1) is None else phone.group(1),
          "firstname" : " ".join(names[:-1]),
@@ -60,9 +58,9 @@ class Rolodex():
       """ combines the two dictionary objects into a single dictionary object """
       return { "entries" : dict_entry_array, "errors" : errors_array }
    
-   def sort_on_key(self, key_to_sort = "lastname"):
-      """ returns a sorted version of dictionary based on key_to_sort """
-      return sorted(self.entry, key=lambda k: k[key_to_sort])
+   def sort_on_key(self, primary_sort = "lastname", secondary_sort = "firstname"):
+      """ returns a sorted version of dictionary based on a primary and secondary key """
+      return sorted(self.entry, key=lambda k: (k[primary_sort], k[secondary_sort]))
    
    def format_JSON(self):
       """ return JSON object built from build_rolodex """
@@ -73,10 +71,10 @@ class Rolodex():
    def write_file(self, out_file='result.out'):
       """ write contents to out_file """
       f = open(out_file, 'w+')
-      json.dump(self.format_JSON(), f)
+      f.write(self.format_JSON())
       
 
-# Actually run the code
+# Actually run the code when called
 if __name__ == "__main__":
    
    if sys.argv[:-1] is not None:
