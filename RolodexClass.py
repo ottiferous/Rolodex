@@ -1,5 +1,6 @@
+#
 # Creates a class to ingest, hold, and output (JSON) address entries
-
+import sys
 import re
 import json
 
@@ -18,7 +19,7 @@ class Rolodex():
       self.zipcode_regex = re.compile(r', (\d{5})')
 
             
-   def get_data(fname = 'data.in'):
+   def get_data(self, fname = 'data.in'):
       """ read data from filename """
       with open('data.in') as f:
          lines = f.readlines()
@@ -46,9 +47,10 @@ class Rolodex():
 
    def add_info(self, zipcode, names, phone, color):
       """ takes regex objects and returns a dictionary object """
+
       self.entry.append({
+         "phonenumber" : phone.group(0) if phone.group(1) is None else phone.group(1),
          "firstname" : " ".join(names[:-1]),
-         "phonenumber" : phone.group(),
          "zipcode" : zipcode.group(1),
          "color" : color.group(1),
          "lastname" : names[-1]
@@ -62,20 +64,27 @@ class Rolodex():
       """ returns a sorted version of dictionary based on key_to_sort """
       return sorted(self.entry, key=lambda k: k[key_to_sort])
    
-   def output_JSON(self):
+   def format_JSON(self):
       """ return JSON object built from build_rolodex """
       return json.dumps(
          self.build_rolodex(self.sort_on_key(), self.errors), 
          sort_keys=True, indent=2)
+
+   def write_file(self, out_file='result.out'):
+      """ write contents to out_file """
+      f = open(out_file, 'w+')
+      json.dump(self.format_JSON(), f)
       
 
 # Actually run the code
 if __name__ == "__main__":
    
+   if sys.argv[:-1] is not None:
+      filename = sys.argv[:-1]
+   else:
+      filename = 'data.in'
+   
    rolo = Rolodex()
-   lines = rolo.get_data()
+   lines = rolo.get_data(filename)
    rolo.extract_info(lines)
-   
-   print rolo.output_JSON()
-   
-   
+   print rolo.write_file()
