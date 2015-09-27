@@ -2,3 +2,7 @@
 rolodex_instructions.pages
 
 rolodex_instructions.pdf
+
+*.in
+
+*.out
