@@ -48,7 +48,7 @@ class Rolodex():
       """ takes regex objects and returns a dictionary object """
       self.entry.append({
          "firstname" : " ".join(names[:-1]),
-         "phonenumber" : phone.group(1),
+         "phonenumber" : phone.group(),
          "zipcode" : zipcode.group(1),
          "color" : color.group(1),
          "lastname" : names[-1]
