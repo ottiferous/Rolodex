@@ -14,7 +14,7 @@ class Rolodex():
       self.errors = []
       
       # precompile the regex for better performance as the count of entries increases
-      self.phone_regex = re.compile(r', (\d{3} \d{3} \d{4})|(\(\d{3}\)-\d{3}-\d{4})')
+      self.phone_regex = re.compile(r'(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}')
       self.color_regex = re.compile(r', ([^A-Z][a-z]+)')
       self.names_regex = re.compile(r'([A-Z][a-z.]+)')
       self.zipcode_regex = re.compile(r', (\d{5})')
