@@ -18,7 +18,15 @@ class Rolodex():
       self.color_regex = re.compile(r', ([^A-Z][a-z]+)')
       self.names_regex = re.compile(r'([A-Z][a-z.]+)')
       self.zipcode_regex = re.compile(r', (\d{5})')
-            
+
+   def len_of_entry(self):
+      """ return the number of entries in entry """
+      return len(self.entry)
+   
+   def len_of_errors(self):
+      """ returns the number of entries in error """
+      return len(self.errors)
+   
    def get_data(self, fname="data.in"):
       """ read data from filename """
       with open(fname) as f:
@@ -37,8 +45,8 @@ class Rolodex():
                   
          # make sure all entries were found on a line before processing
          if all([zipcode, names, phone, color]):
-            phonestring = self.normalize_phone(phone)
-            self.add_info(zipcode.group(1), names, phonestring, color.group(1))
+            phone_string = self.normalize_phone(phone)
+            self.add_info(zipcode.group(1), names, phone_string, color.group(1))
          else:
             self.errors.append(linenum)
          
