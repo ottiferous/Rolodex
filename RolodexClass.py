@@ -32,25 +32,32 @@ class Rolodex():
          
          zipcode = self.zipcode_regex.search(line)
          names = self.names_regex.findall(line)
-         phone = self.phone_regex.search(line)
          color = self.color_regex.search(line)
-         
-         # if all objects were found we have a valid entry
+         phone = self.phone_regex.search(line)
+                  
+         # make sure all entries were found on a line before processing
          if all([zipcode, names, phone, color]):
-            self.add_info(zipcode, names, phone, color)
+            phonestring = self.normalize_phone(phone)
+            self.add_info(zipcode.group(1), names, phonestring, color.group(1))
          else:
             self.errors.append(linenum)
          
          linenum += 1
-
+         
+   def normalize_phone(self, phone):
+      """ returns normalized phone number in xxx-xxx-xxxx format """
+      phone = phone.group(0) if phone.group(1) is None else phone.group(1)
+      n = re.sub("[^0-9]", "", phone)
+      return n[:3] + "-" + n[3:6] + "-" + n[6:]
+      
    def add_info(self, zipcode, names, phone, color):
       """ takes regex objects and returns a dictionary object """
       self.entry.append({
-         "phonenumber" : phone.group(0) if phone.group(1) is None else phone.group(1),
          "firstname" : " ".join(names[:-1]),
-         "zipcode" : zipcode.group(1),
-         "color" : color.group(1),
-         "lastname" : names[-1]
+         "lastname" : names[-1],
+         "phonenumber" : phone,
+         "zipcode" : zipcode,
+         "color" : color
       })
       
    def build_rolodex(self, dict_entry_array, errors_array):
