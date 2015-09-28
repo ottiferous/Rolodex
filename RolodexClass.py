@@ -45,7 +45,7 @@ class Rolodex():
                   
          # make sure all entries were found on a line before processing
          if all([zipcode, names, phone, color]):
-            phone_string = self.normalize_phone(phone)
+            phone_string = self.normalize_phone(phone.group())
             self.add_info(zipcode.group(1), names, phone_string, color.group(1))
          else:
             self.errors.append(linenum)
@@ -54,7 +54,6 @@ class Rolodex():
          
    def normalize_phone(self, phone):
       """ returns normalized phone number in xxx-xxx-xxxx format """
-      phone = phone.group(0) if phone.group(1) is None else phone.group(1)
       n = re.sub("[^0-9]", "", phone)
       return n[:3] + "-" + n[3:6] + "-" + n[6:]
       
