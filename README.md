@@ -28,3 +28,6 @@ Once the information is extracted, if any fields are missing from a line the lin
 
 ### Outputting JSON
 Once all of the data is ingested 4 methods work in tandem to construct a single large ditionary from the entries array and the errors array, that dictionary is sorted as a list and returned to be outputed as a JSON formatted object to 'result.out' unless another file is specified.
+
+## Further Info
+A git repository can be found at https://github.com/ottiferous/Rolodex for more insight into the creation process of this project.
