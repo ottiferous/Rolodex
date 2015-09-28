@@ -19,9 +19,9 @@ class Rolodex():
       self.names_regex = re.compile(r'([A-Z][a-z.]+)')
       self.zipcode_regex = re.compile(r', (\d{5})')
             
-   def get_data(self, fname = 'data.in'):
+   def get_data(self, fname="data.in"):
       """ read data from filename """
-      with open('data.in') as f:
+      with open(fname) as f:
          lines = f.readlines()
       return lines
    
@@ -84,7 +84,7 @@ class Rolodex():
 if __name__ == "__main__":
    
    # input filename is optional
-   if sys.argv[:-1] is not None:
+   if (sys.argv[:-1] is not None) and (len(sys.argv) > 1):
       filename = sys.argv[:-1]
    else:
       filename = 'data.in'
